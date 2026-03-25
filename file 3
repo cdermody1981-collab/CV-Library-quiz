@@ -1,0 +1,99 @@
+// Quiz Data
+const quizQuestions = [
+  {
+    section: "Product Familiarity",
+    question: "Which of the following is NOT a feature of CV-Library's recruiter platform?",
+    options: ["Standard Job Posts", "Access to ATS Integration", "Free Jobseeker CV Downloads", "Email Campaigns"],
+    correctAnswer: 2
+  },
+  {
+    section: "Job Posting Optimization",
+    question: "What is the most important factor when writing a job title?",
+    options: ["Be creative and use unique terms", "Use concise and specific titles", "Include all possible skills in the title", "Avoid using salary ranges"],
+    correctAnswer: 1
+  },
+  {
+    section: "Boolean Logic & CV Search",
+    question: "What does the Boolean operator ‘NOT’ do in CV searches?",
+    options: ["Includes duplicates", "Combines two terms", "Excludes specific terms from results", "Finds matches only in titles"],
+    correctAnswer: 2
+  },
+  // Add more questions up to 50 here
+];
+
+// DOM Elements
+const startScreen = document.getElementById("start-screen");
+const questionScreen = document.getElementById("question-screen");
+const resultScreen = document.getElementById("result-screen");
+const questionText = document.getElementById("question-text");
+const answerOptions = document.getElementById("answer-options");
+const progressBar = document.getElementById("progress-fill");
+const scoreSummary = document.getElementById("score-summary");
+const categoryScores = document.getElementById("category-scores");
+
+let currentQuestionIndex = 0;
+let score = 0;
+let sectionScores = {};
+
+// Start Quiz
+document.getElementById("start-quiz-button").addEventListener("click", startQuiz);
+
+function startQuiz() {
+  startScreen.classList.add("hidden");
+  questionScreen.classList.remove("hidden");
+  currentQuestionIndex = 0;
+  score = 0;
+  sectionScores = {};
+  showQuestion();
+}
+
+function showQuestion() {
+  const currentQuestion = quizQuestions[currentQuestionIndex];
+  questionText.textContent = currentQuestion.question;
+  answerOptions.innerHTML = "";
+  currentQuestion.options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.textContent = option;
+    button.addEventListener("click", () => checkAnswer(index));
+    answerOptions.appendChild(button);
+  });
+
+  // Update progress bar
+  const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+  progressBar.style.width = `${progress}%`;
+}
+
+function checkAnswer(selectedIndex) {
+  const currentQuestion = quizQuestions[currentQuestionIndex];
+  if (selectedIndex === currentQuestion.correctAnswer) {
+    score++;
+    const section = currentQuestion.section;
+    sectionScores[section] = (sectionScores[section] || 0) + 1;
+  }
+  currentQuestionIndex++;
+
+  // Go to next question or results
+  if (currentQuestionIndex < quizQuestions.length) {
+    showQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  questionScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
+
+  scoreSummary.textContent = `You scored ${score} out of ${quizQuestions.length}!`;
+  categoryScores.innerHTML = "";
+  for (const section in sectionScores) {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${section}: ${sectionScores[section]} points`;
+    categoryScores.appendChild(listItem);
+  }
+}
+
+document.getElementById("restart-quiz-button").addEventListener("click", () => {
+  resultScreen.classList.add("hidden");
+  startScreen.classList.remove("hidden");
+});
