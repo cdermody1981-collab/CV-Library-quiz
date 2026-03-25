@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV-Library Recruiter Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome to the CV-Library Recruiter Quiz</h1>
+      <p>Test your CV-Library product knowledge and recruiter expertise!</p>
+    </header>
+
+    <main id="quiz-container">
+      <section id="start-screen">
+        <button id="start-quiz-button">Start Quiz</button>
+      </section>
+
+      <section id="question-screen" class="hidden">
+        <div class="progress-bar">
+          <span id="progress-fill"></span>
+        </div>
+        <div id="question-area">
+          <p id="question-text"></p>
+          <div id="answer-options"></div>
+        </div>
+      </section>
+
+      <section id="result-screen" class="hidden">
+        <h2>Your Results</h2>
+        <p id="score-summary"></p>
+        <ul id="category-scores"></ul>
+        <button id="restart-quiz-button">Restart Quiz</button>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
